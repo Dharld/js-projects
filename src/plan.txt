@@ -1,0 +1,8 @@
+STEPS
+
+1) Draw the board
+2) Draw the pawns
+3) Implement the moving functionality of pawns
+4) Change of turn
+5) Implementing the capturing functionality
+6) Implementing the promotion
