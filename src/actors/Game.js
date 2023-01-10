@@ -55,27 +55,46 @@ export class Game {
   }
 
   playATurn(e) {
-    const posX = Math.floor((e.clientX - this.#field.offsetLeft) / 100);
-    const posY = Math.floor((e.clientY - this.#field.offsetTop) / 100);
+    const posX = Math.floor((e.clientX - this.#field.offsetLeft) / CASE_SIZE);
+    const posY = Math.floor((e.clientY - this.#field.offsetTop) / CASE_SIZE);
 
     if (!this.#activePawn && this.#activePlayer) {
       // Get the pawn at the clicked position
+
       const p = this.#board[posY][posX];
+
       if (p == "Empty") return;
 
       this.#activePawn = p;
 
-      if (this.checkTurn())
+      if (this.checkTurn()) {
         p.showPossibleMovement(this.context, this.checkBoard.bind(this));
+      }
     } else {
       // Checking if the clicked case is empty
       const newPos = `${numberToAlphabet[posY]}${posX}`;
       if (
         this.board[posY][posX] == "Empty" &&
-        this.#activePawn.canMoveTo(newPos, () => this.checkBoard(newPos))
+        this.#activePawn.canMoveTo(newPos, this.checkBoard.bind(this))
       ) {
         if (this.checkTurn())
           this.#activePawn.moveTo(newPos, (oldX, oldY, newX, newY) => {
+            document.addEventListener("capture", (e) => {
+              const { left, up, oldX, oldY } = e.detail;
+              /*               console.log(oldX, oldY);
+               */ const pLeft = oldX + (left ? -1 : 1);
+              const pUp = oldY + (up ? -1 : 1);
+
+              this.board[pUp][pLeft] = "Empty";
+              /* const pawnToRemove = this.#activePawn.at(
+                left,
+                up,
+                this.checkBoard.bind(this)
+              ); */
+              /*               console.log(pawnToRemove);
+               */
+            });
+
             // Empty the previous position
             // console.log(`x: ${oldX},y: ${oldY},newX: ${newX},newY: ${newY}`);
             this.board[oldY][oldX] = "Empty";
@@ -86,7 +105,6 @@ export class Game {
 
             this.#activePlayer =
               this.#activePlayer == "Player1" ? "Player2" : "Player1";
-            console.log(this.#activePlayer);
           });
         // no active pawn
         this.#activePawn = "";

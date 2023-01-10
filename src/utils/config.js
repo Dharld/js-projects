@@ -1,9 +1,9 @@
 export const NUMBER_OF_COLUMNS = 10;
 export const NUMBER_OF_ROWS = 10;
 export const INITIAL_NUMBER_OF_ROWS_WITH_PAWNS = 4;
-export const FIELD_WIDTH = 1000;
-export const FIELD_HEIGHT = 1000;
-export const CASE_SIZE = 100;
+export const FIELD_WIDTH = 700;
+export const FIELD_HEIGHT = 700;
+export const CASE_SIZE = 70;
 export const COLOR_BLACK = "#281302";
 export const COLOR_WHITE = "#F3CE7D";
 export const RED_DOT_SIZE = 5;
